@@ -1,0 +1,29 @@
+{
+  "name": "fluxbone",
+  "version": "1.0.0",
+  "description": "flux architecture with backbone models",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/myagoo/fluxbone.git"
+  },
+  "keywords": [
+    "flux",
+    "react"
+  ],
+  "author": "Benjamin Millagou",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/myagoo/fluxbone/issues"
+  },
+  "homepage": "https://github.com/myagoo/fluxbone",
+  "dependencies": {
+    "flux": "^2.0.1",
+    "jsx-loader": "^0.11.2",
+    "react": "^0.11.2",
+    "webpack": "^1.4.4"
+  }
+}
