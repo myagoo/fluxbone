@@ -9,6 +9,7 @@ var wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
 var LoginForm = React.createClass({
     handleSubmit: function(event){
         UserActions.login(this.refs.login.getValue(), this.refs.password.getValue());
+        event.preventDefault();
     },
     render: function() {
         return (

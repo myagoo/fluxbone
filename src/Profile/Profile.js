@@ -26,6 +26,7 @@ var Profile = React.createClass({
     },
     handleSubmit: function(event){
         UserActions.edit(this.refs.login.getValue());
+        event.preventDefault();
     },
     render: function() {
         return (
