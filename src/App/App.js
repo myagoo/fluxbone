@@ -1,24 +1,32 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var {MenuBar, MenuItem, Menu, Separator} = require('react-menu-bar');
+var {Navbar, Nav, DropdownButton, MenuItem, Panel} = require('react-bootstrap');
 var {Routes, Route, DefaultRoute, NotFoundRoute, Redirect, Link} = require('react-router');
+var NavItemLink = require('./NavItemLink.js');
+var MenuItemLink = require('./MenuItemLink.js');
 var TodoList = require('../TodoList/TodoList.js');
 
 require('./App.css');
 
 var App = React.createClass({
-  handleSelect: function (key) {
-    console.log('Selected: %s', key);
-  },
   render: function () {
     return (
       <div>
-        <MenuBar onSelect={this.handleSelect}>
-            <MenuItem key="home"><Link to="home">Home</Link></MenuItem>
-            <MenuItem key="todo"><Link to="todo">Todo</Link></MenuItem>
-        </MenuBar>
-        <this.props.activeRouteHandler/>
+      <Navbar>
+        <Nav>
+          <NavItemLink to="home">Home</NavItemLink>
+          <NavItemLink to="todo">Todo</NavItemLink>
+          <DropdownButton key={3} title="Dropdown">
+            <MenuItemLink to="home">Home</MenuItemLink>
+            <MenuItemLink to="todo">Todo</MenuItemLink>
+            <MenuItem divider />
+            <MenuItemLink to="home">Home</MenuItemLink>
+            <MenuItemLink to="todo">Todo</MenuItemLink>
+          </DropdownButton>
+        </Nav>
+      </Navbar>
+      <this.props.activeRouteHandler/>
       </div>
     );
   }

@@ -8,9 +8,11 @@ module.exports = {
   },
   module: {
     loaders: [
-      { test: /\.jsx$/, loader: 'jsx-loader?harmony&insertPragma=React.DOM' },
-      { test: /\.js$/, loader: 'jsx-loader?harmony' },
+      { test: [/\.js$/,/\.jsx$/], loader: 'jsx-loader?harmony&insertPragma=React.DOM' },
       { test: /\.css$/, loader: 'style-loader!css-loader'}
     ]
+  },
+  resolve: {
+    extensions: ['', '.js']
   }
 };
