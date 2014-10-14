@@ -1,12 +1,16 @@
+var path = require('path');
+
 module.exports = {
-  entry: './js/app.js',
+  entry: path.join(__dirname, 'src', 'main.js'),
   output: {
-    path: './js',
+    path: path.join(__dirname, 'dist'),
     filename: 'bundle.js'
   },
   module: {
     loaders: [
-      { test: /\.js$/, loader: 'jsx-loader?harmony' } // loaders can take parameters as a querystring
+      { test: /\.jsx$/, loader: 'jsx-loader?harmony&insertPragma=React.DOM' },
+      { test: /\.js$/, loader: 'jsx-loader?harmony' },
+      { test: /\.css$/, loader: 'style-loader!css-loader'}
     ]
   }
 };
