@@ -7,14 +7,14 @@ var TodoList = require('./TodoList/TodoList.js');
 var {Routes, Route, DefaultRoute, NotFoundRoute, Redirect} = require('react-router');
 
 var routes = (
-  <Routes location="hash">
+    <Routes location="hash">
     <Route name="app" path="/" handler={App}>
-      <DefaultRoute name="home" handler={Home}/>
-      <Route name="todo" handler={TodoList}/>
+    <DefaultRoute name="home" handler={Home}/>
+    <Route name="todo" handler={TodoList}/>
     </Route>
-  </Routes>
+    </Routes>
 );
 
 document.addEventListener('DOMContentLoaded', function() {
-  React.renderComponent(routes, document.body);
+    React.renderComponent(routes, document.body);
 });

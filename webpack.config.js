@@ -7,12 +7,18 @@ module.exports = {
     filename: 'bundle.js'
   },
   module: {
-    loaders: [
-      { test: [/\.js$/,/\.jsx$/], loader: 'jsx-loader?harmony&insertPragma=React.DOM' },
-      { test: /\.css$/, loader: 'style-loader!css-loader'}
-    ]
+    loaders: [{
+      test: [
+        /\.js$/,
+        /\.jsx$/
+      ],
+      loader: 'jsx-loader?harmony&insertPragma=React.DOM'
+    }, {
+      test: /\.css$/,
+      loader: 'style-loader!css-loader'
+    }]
   },
   resolve: {
-    extensions: ['', '.js']
+    extensions: ['', '.js', '.jsx']
   }
 };
