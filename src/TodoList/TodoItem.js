@@ -1,20 +1,16 @@
 /** @jsx React.DOM */
 
 var React = require('react');
+var TodoActions = require('../actions/TodoActions.js');
 
 var TodoItem = React.createClass({
-    getDefaultProps: function(){
-        return {
-            onClick: function(){}
-        };
-    },
     handleClick: function(event){
-        this.props.onClick(this.props);
+        TodoActions.destroy(this.props.todo.id);
     },
     render: function(){
         return (
             <li>
-            <span>{this.props.text}</span>
+            <span>{this.props.todo.text}</span>
             <span onClick={this.handleClick}>&times;</span>
             </li>
         );

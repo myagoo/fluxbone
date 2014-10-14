@@ -3,59 +3,51 @@
 var React = require('react');
 var TodoItem = require('./TodoItem.js');
 var Link = require('react-router').Link;
+var TodoStore = require('../stores/TodoStore.js');
+var TodoActions = require('../actions/TodoActions.js');
 
 var TodoList = React.createClass({
-    getDefaultProps: function(){
-        return {
-            initialItems: [],
-            initialValue: ''
-        };
+    onTodoChange: function(){
+        this.setState({
+            todos: TodoStore.getTodos(),
+        });
+    },
+    componentDidMount: function() {
+        TodoStore.addChangeListener(this.onTodoChange);
+    },
+    componentWillUnmount: function() {
+        TodoStore.removeChangeListener(this.onTodoChange);
     },
     getInitialState: function(){
         return {
-            items: this.props.initialItems,
-            value: this.props.initialValue
+            todos: TodoStore.getTodos(),
+            value: ''
         }
     },
     handleClick: function(event){
-        var value = this.state.value;
-        if(value !== ''){
-            var items = this.state.items;
-            items.push(value);
-            this.setState({
-                items: items,
-                value: ''
-            });
-        }
+        TodoActions.create(this.state.value);
     },
     handleChange: function(event){
         this.setState({
             value: event.target.value
         });
     },
-    handleItemRemove: function(itemProps){
-        var items = this.state.items;
-        items.splice(itemProps.key, 1);
-        this.setState({
-            items: items
-        });
-    },
     render: function(){
-        var todoItems = this.state.items.map(function(item, index){
+        var todoItems = Object.keys(this.state.todos).map(function(id){
             return (
-                <TodoItem key={index} text={item} onClick={this.handleItemRemove}/>
+                <TodoItem key={id} todo={this.state.todos[id]}/>
             );
         }.bind(this));
 
         return (
             <div>
-            <div>
-            <input ref="input" type="text" value={this.state.value} onChange={this.handleChange}/>
-            <button disabled={this.state.value === ''} onClick={this.handleClick}>Ajouter !</button>
-            </div>
-            <ul>
-            {todoItems}
-            </ul>
+                <div>
+                    <input type="text" value={this.state.value} onChange={this.handleChange}/>
+                    <button disabled={this.state.value === ''} onClick={this.handleClick}>Ajouter</button>
+                </div>
+                <ul>
+                    {todoItems}
+                </ul>
             </div>
         );
     }
