@@ -1,60 +1,32 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher.js');
-var EventEmitter = require('events').EventEmitter;
-var UserConstants = require('../constants/UserConstants.js');
-var merge = require('react/lib/merge');
+var Reflux = require('reflux');
+var UserActions = require('../actions/UserActions.js');
 
-var currentUser = null;
-
-var CHANGE_EVENT = 'change';
-
-function login(login, password){
-    currentUser = {
-        login: login,
-        password: password
-    }
-}
-
-function logout(){
-    currentUser = null;
-}
-
-function edit(login){
-    currentUser.login = login;
-}
-
-var UserStore = merge(EventEmitter.prototype, {
-    getCurrentUser: function() {
-        return currentUser;
+var UserStore = Reflux.createStore({
+    currentUser: null,
+    // Initial setup
+    init: function() {
+        // Register statusUpdate action
+        this.listenTo(UserActions.login, this.login);
+        this.listenTo(UserActions.logout, this.logout);
+        this.listenTo(UserActions.edit, this.edit);
     },
-    emitChange: function() {
-        this.emit(CHANGE_EVENT);
+    login: function(login, password){
+        this.currentUser = {
+            login: login,
+            password: password
+        };
+        this.trigger(this.currentUser);
     },
-    addChangeListener: function(callback) {
-        this.on(CHANGE_EVENT, callback);
+    logout: function (){
+        this.currentUser = null;
+        this.trigger(this.currentUser);
     },
-    removeChangeListener: function(callback) {
-        this.removeListener(CHANGE_EVENT, callback);
-    }
-});
-
-// Register to handle all updates
-AppDispatcher.register(function(payload) {
-    var action = payload.action;
-    switch(action.actionType) {
-        case UserConstants.USER_LOGIN:
-            login(action.login, action.password);
-            UserStore.emitChange();
-            break;
-        case UserConstants.USER_LOGOUT:
-            logout();
-            UserStore.emitChange();
-            break;
-        case UserConstants.USER_EDIT:
-            edit(action.login);
-            UserStore.emitChange();
-            break;
-        default:
-            return;
+    edit: function(login){
+        this.currentUser.login = login;
+        this.trigger(this.currentUser);
+    },
+    getCurrentUser: function(){
+        return this.currentUser;
     }
 });
 

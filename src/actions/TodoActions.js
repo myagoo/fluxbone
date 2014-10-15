@@ -1,19 +1,5 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher.js');
-var TodoConstants = require('../constants/TodoConstants.js');
+var Reflux = require('reflux');
 
-var TodoActions = {
-    create: function(text) {
-        AppDispatcher.handleViewAction({
-            actionType: TodoConstants.TODO_CREATE,
-            text: text
-        });
-    },
-    destroy: function(id) {
-        AppDispatcher.handleViewAction({
-            actionType: TodoConstants.TODO_DESTROY,
-            id: id
-        });
-    },
-};
+var TodoActions = Reflux.createActions(['create', 'destroy']);
 
 module.exports = TodoActions;

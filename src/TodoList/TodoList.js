@@ -7,20 +7,20 @@ var TodoStore = require('../stores/TodoStore.js');
 var TodoActions = require('../actions/TodoActions.js');
 
 var TodoList = React.createClass({
-    onTodoChange: function(){
+    onTodoChange: function(currentUserTodos){
         this.setState({
-            todos: TodoStore.getTodos(),
+            todos: currentUserTodos
         });
     },
     componentDidMount: function() {
-        TodoStore.addChangeListener(this.onTodoChange);
+        this.unsubscribe = TodoStore.listen(this.onTodoChange);
     },
     componentWillUnmount: function() {
-        TodoStore.removeChangeListener(this.onTodoChange);
+        this.unsubscribe();
     },
     getInitialState: function(){
         return {
-            todos: TodoStore.getTodos(),
+            todos: TodoStore.getCurrentUserTodos(),
             value: ''
         }
     },

@@ -14,10 +14,10 @@ var Profile = React.createClass({
         });
     },
     componentDidMount: function() {
-        UserStore.addChangeListener(this.onUserChange);
+        this.unsubscribe = UserStore.listen(this.onUserChange);
     },
     componentWillUnmount: function() {
-        UserStore.removeChangeListener(this.onUserChange);
+        this.unsubscribe();
     },
     getInitialState: function(){
         return {

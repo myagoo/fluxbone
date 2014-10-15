@@ -1,58 +1,42 @@
-var AppDispatcher = require('../dispatcher/AppDispatcher.js');
-var EventEmitter = require('events').EventEmitter;
-var TodoConstants = require('../constants/TodoConstants.js');
-var merge = require('react/lib/merge');
+var Reflux = require('reflux');
 
-var todos = {};
+var TodoActions = require('../actions/TodoActions.js');
+var SessionActions = require('../actions/SessionActions.js');
 
-var CHANGE_EVENT = 'change';
+var UserStore =  require('./UserStore.js');
+var SessionStore = require('./SessionStore.js');
 
-function destroy(id){
-    delete todos[id];
-}
-
-function create(text){
-    var id = Date.now();
-    todos[id] = {
-        id: id,
-        text: text,
-        completed: false
-    };
-}
-
-var TodoStore = merge(EventEmitter.prototype, {
-    getTodos: function() {
+var TodoStore = Reflux.createStore({
+    // Initial setup
+    init: function() {
+        this.listenTo(TodoActions.create, this.onCreate);
+        this.listenTo(TodoActions.destroy, this.onDestroy);
+    },
+    getCurrentUserTodos: function(){
+        var todos = SessionStore.get('todos') || {};
         return todos;
     },
-    emitChange: function() {
-        this.emit(CHANGE_EVENT);
+    setCurrentUserTodos: function(todos){
+        SessionActions.set('todos', todos);
+        //SessionActions.merge('todos', todos);
     },
-    addChangeListener: function(callback) {
-        this.on(CHANGE_EVENT, callback);
+    onCreate: function(text){
+        var currentUserTodos = this.getCurrentUserTodos();
+        console.log('onCreate', currentUserTodos);
+        var id = Date.now();
+        currentUserTodos[id] = {
+            id: id,
+            text: text,
+            completed: false
+        };
+        this.setCurrentUserTodos(currentUserTodos);
+        this.trigger(currentUserTodos);
     },
-    removeChangeListener: function(callback) {
-        this.removeListener(CHANGE_EVENT, callback);
-    }
-});
-
-// Register to handle all updates
-AppDispatcher.register(function(payload) {
-    var action = payload.action;
-    var text;
-    switch(action.actionType) {
-        case TodoConstants.TODO_CREATE:
-            text = action.text.trim();
-            if (text !== '') {
-                create(text);
-            }
-            TodoStore.emitChange();
-            break;
-        case TodoConstants.TODO_DESTROY:
-            destroy(action.id);
-            TodoStore.emitChange();
-            break;
-        default:
-            return;
+    onDestroy: function (id){
+        var currentUserTodos = this.getCurrentUserTodos();
+        delete currentUserTodos[id];
+        this.setCurrentUserTodos(currentUserTodos);
+        this.trigger(currentUserTodos);
     }
 });
 
