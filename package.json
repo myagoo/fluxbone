@@ -29,7 +29,7 @@
     "react-router": "^0.9.4",
     "reflux": "^0.1.13",
     "style-loader": "^0.8.1",
-    "webpack": "^1.4.4"
+    "webpack": "^1.4.8"
   },
   "devDependencies": {
     "webpack-dev-server": "^1.6.5"
