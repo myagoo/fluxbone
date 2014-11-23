@@ -2,13 +2,16 @@
 
 var React = require('react');
 var {Navbar, Nav, DropdownButton, MenuItem, Panel} = require('react-bootstrap');
-var {Routes, Route, DefaultRoute, NotFoundRoute, Redirect, Link} = require('react-router');
-var NavItemLink = require('./NavItemLink.js');
-var MenuItemLink = require('./MenuItemLink.js');
-var TodoList = require('../TodoList/TodoList.js');
-var LoginForm = require('../LoginForm/LoginForm.js');
-var UserStore = require('../stores/UserStore.js');
-var UserActions = require('../actions/UserActions.js');
+var {RouteHandler} = require('react-router');
+
+var NavItemLink = require('components/NavItemLink/NavItemLink.js');
+var MenuItemLink = require('components/MenuItemLink/MenuItemLink.js');
+var TodoList = require('components/TodoList/TodoList.js');
+var LoginForm = require('components/LoginForm/LoginForm.js');
+
+var UserStore = require('stores/UserStore.js');
+
+var UserActions = require('actions/UserActions.js');
 
 require('./App.css');
 
@@ -38,7 +41,7 @@ var App = React.createClass({
         }else{
             return (
                 <div>
-                <Navbar>
+                <Navbar fluid>
                 <Nav>
                 <NavItemLink to="home">Home</NavItemLink>
                 <NavItemLink to="todo">Todo</NavItemLink>
@@ -49,7 +52,7 @@ var App = React.createClass({
                 </DropdownButton>
                 </Nav>
                 </Navbar>
-                <this.props.activeRouteHandler/>
+                <RouteHandler />
                 </div>
             );
         }

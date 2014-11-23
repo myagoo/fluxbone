@@ -2,7 +2,8 @@
 
 var React = require('react/addons');
 var MenuItem = require('react-bootstrap').MenuItem;
-var LinkMixin = require('./LinkMixin.js');
+var LinkMixin = require('mixins/LinkMixin.js');
+
 var MenuItemLink = React.createClass({
     mixins: [LinkMixin],
     render: function(){

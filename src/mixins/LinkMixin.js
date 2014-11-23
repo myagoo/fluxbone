@@ -1,5 +1,5 @@
 var React = require('react/addons');
-var {Navigation, ActiveState} = require('react-router');
+var {Navigation, State} = require('react-router');
 
 function isLeftClickEvent(event) {
     return event.button === 0;
@@ -9,6 +9,8 @@ function isModifiedEvent(event) {
     return !!(event.metaKey || event.altKey || event.ctrlKey || event.shiftKey);
 }
 
+
+
 var LinkMixin = {
     contextTypes: {
         makePath: Navigation.contextTypes.makePath,
@@ -16,20 +18,25 @@ var LinkMixin = {
         transitionTo: Navigation.contextTypes.transitionTo,
         replaceWith: Navigation.contextTypes.replaceWith,
         goBack: Navigation.contextTypes.goBack,
-        activeRoutes: ActiveState.contextTypes.activeRoutes,
-        activeParams: ActiveState.contextTypes.activeParams,
-        activeQuery: ActiveState.contextTypes.activeQuery,
-        isActive: ActiveState.contextTypes.isActive
+
+        getCurrentPath: State.contextTypes.getCurrentPath,
+        getCurrentRoutes: State.contextTypes.getCurrentRoutes,
+        getCurrentParams: State.contextTypes.getCurrentParams,
+        getCurrentQuery: State.contextTypes.getCurrentQuery,
+        isActive: State.contextTypes.isActive
     },
+
     makePath: Navigation.makePath,
     makeHref: Navigation.makeHref,
     transitionTo: Navigation.transitionTo,
     replaceWith: Navigation.replaceWith,
     goBack: Navigation.goBack,
-    getActiveRoutes: ActiveState.getActiveRoutes,
-    getActiveParams: ActiveState.getActiveParams,
-    getActiveQuery: ActiveState.getActiveQuery,
-    isActive: ActiveState.isActive,
+
+    getPath: State.getRoutes,
+    getRoutes: State.getRoutes,
+    getParams: State.getParams,
+    getQuery: State.getQuery,
+    isActive: State.isActive,
 
     propTypes: {
         activeClassName: React.PropTypes.string.isRequired,
@@ -58,14 +65,13 @@ var LinkMixin = {
         }
 
         if (clickResult === false || event.defaultPrevented === true){
-
             allowTransition = false;
         }
 
         event.preventDefault();
 
         if (allowTransition){
-            this.transitionTo(this.props.to, this.props.params, this.props.query);
+            this.transitionTo(this.props.to, this.getParams(), this.getQuery());
         }
     },
 
@@ -73,7 +79,7 @@ var LinkMixin = {
     * Returns the value of the "href" attribute to use on the DOM element.
     */
     getHref: function () {
-        return this.makeHref(this.props.to, this.props.params, this.props.query);
+        return this.makeHref(this.props.to, this.getParams(), this.getQuery());
     },
 
     /**
@@ -87,7 +93,7 @@ var LinkMixin = {
             classNames[this.props.className] = true;
         }
 
-        if (this.isActive(this.props.to, this.props.params, this.props.query)){
+        if (this.isActive(this.props.to, this.getParams(), this.getQuery())){
             classNames[this.props.activeClassName] = true;
         }
 

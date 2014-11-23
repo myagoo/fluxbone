@@ -1,9 +1,9 @@
 var Reflux = require('reflux');
 var merge = require('react/lib/merge');
 
-var SessionActions = require('../actions/SessionActions.js');
+var SessionActions = require('actions/SessionActions.js');
 
-var UserStore =  require('./UserStore.js');
+var UserStore =  require('stores/UserStore.js');
 
 var SessionStore = Reflux.createStore({
     // Initial setup

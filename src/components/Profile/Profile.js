@@ -2,8 +2,10 @@
 
 var React = require('react');
 var {Input} = require('react-bootstrap');
-var UserActions = require('../actions/UserActions.js');
-var UserStore = require('../stores/UserStore.js');
+
+var UserActions = require('actions/UserActions.js');
+
+var UserStore = require('stores/UserStore.js');
 
 var wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
 

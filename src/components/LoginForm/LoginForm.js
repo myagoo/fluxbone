@@ -2,7 +2,7 @@
 
 var React = require('react');
 var {Input} = require('react-bootstrap');
-var UserActions = require('../actions/UserActions.js');
+var UserActions = require('actions/UserActions.js');
 
 var wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
 

@@ -2,7 +2,8 @@
 
 var React = require('react/addons');
 var NavItem = require('react-bootstrap').NavItem;
-var LinkMixin = require('./LinkMixin.js');
+var LinkMixin = require('mixins/LinkMixin.js');
+
 var NavItemLink = React.createClass({
     mixins: [LinkMixin],
     render: function(){

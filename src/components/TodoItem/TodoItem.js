@@ -1,7 +1,8 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var TodoActions = require('../actions/TodoActions.js');
+
+var TodoActions = require('actions/TodoActions.js');
 
 var TodoItem = React.createClass({
     handleClick: function(event){

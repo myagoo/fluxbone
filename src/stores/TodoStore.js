@@ -1,10 +1,10 @@
 var Reflux = require('reflux');
 
-var TodoActions = require('../actions/TodoActions.js');
-var SessionActions = require('../actions/SessionActions.js');
+var TodoActions = require('actions/TodoActions.js');
+var SessionActions = require('actions/SessionActions.js');
 
-var UserStore =  require('./UserStore.js');
-var SessionStore = require('./SessionStore.js');
+var UserStore =  require('stores/UserStore.js');
+var SessionStore = require('stores/SessionStore.js');
 
 var TodoStore = Reflux.createStore({
     // Initial setup

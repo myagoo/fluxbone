@@ -1,10 +1,12 @@
 /** @jsx React.DOM */
 
 var React = require('react');
-var TodoItem = require('./TodoItem.js');
-var Link = require('react-router').Link;
-var TodoStore = require('../stores/TodoStore.js');
-var TodoActions = require('../actions/TodoActions.js');
+
+var TodoItem = require('components/TodoItem/TodoItem.js');
+
+var TodoStore = require('stores/TodoStore.js');
+
+var TodoActions = require('actions/TodoActions.js');
 
 var TodoList = React.createClass({
     onTodoChange: function(currentUserTodos){
