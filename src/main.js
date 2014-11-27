@@ -9,7 +9,6 @@ var router = require('router.js');
 
 document.addEventListener('DOMContentLoaded', function() {
     router.run(function (Handler, state) {
-        console.log('toto');
         RouteActions.transition(Handler, state);
         React.render(<Handler/>, document.body);
     });
