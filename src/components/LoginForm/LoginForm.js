@@ -17,7 +17,7 @@ var LoginForm = React.createClass({
               <form onSubmit={this.handleSubmit}>
               <Input ref="login" label="Login" type="text" defaultValue="" />
               <Input ref="password" label="Password" type="password" defaultValue="" />
-              <Input type="submit" bsStyle='primary' value="Se connecter" />
+              <Input type="submit" bsStyle='primary' value="Login" />
             </form>
             </div>
         );

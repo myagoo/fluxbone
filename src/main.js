@@ -10,6 +10,6 @@ var router = require('router.js');
 document.addEventListener('DOMContentLoaded', function() {
     router.run(function (Handler, state) {
         RouteActions.transition(Handler, state);
-        React.render(<Handler/>, document.body);
+        React.render(<Handler />, document.body);
     });
 });
