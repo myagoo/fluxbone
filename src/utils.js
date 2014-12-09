@@ -28,9 +28,23 @@ function cascade(funcs) {
   }.bind(this));
 }
 
+function extend(obj) {
+  var source, prop;
+  for (var i = 1, length = arguments.length; i < length; i++) {
+    source = arguments[i];
+    for (prop in source) {
+      if (hasOwnProperty.call(source, prop)) {
+        obj[prop] = source[prop];
+      }
+    }
+  }
+  return obj;
+}
+
 module.exports = {
   slice: slice,
   curry: curry,
   debounce: debounce,
-  cascade: cascade
+  cascade: cascade,
+  extend: require('react/lib/Object.assign'),
 };
