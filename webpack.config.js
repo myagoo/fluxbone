@@ -24,7 +24,7 @@ module.exports = {
     }]
   },
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js', '.jsx', '.json'],
     modulesDirectories: ['node_modules', 'bower_components', 'src']
   }
 };
