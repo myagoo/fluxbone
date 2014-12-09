@@ -1,8 +1,8 @@
 var rest = require('rest');
 var mime = require('rest/interceptor/mime');
 var {
-  apiKey, apiUri
-} = require('config.json').lastfm;
+  lastFmApiKey, lastFmApiUri
+} = require('config.js');
 
 var client = rest.wrap(mime);
 
@@ -10,11 +10,11 @@ function lastFmApiCall(method, params) {
   params = params || {};
 
   params.format = 'json';
-  params.api_key = apiKey;
+  params.api_key = lastFmApiKey;
   params.method = method;
 
   return client({
-    path: apiUri,
+    path: lastFmApiUri,
     params: params
   }).then(function(response) {
     if (response.entity.error) {
