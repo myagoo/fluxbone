@@ -20,6 +20,7 @@ var {curry} = require('utils.js');
 require('./App.css');
 
 var App = React.createClass({
+    mixins: [Navigation],
     onNotificationChange: function(){
         this.setState({
             notifications: NotificationStore.getNotifications()
@@ -48,8 +49,13 @@ var App = React.createClass({
         UserActions.logout();
     },
     handleDismiss: function(notificationId){
-        console.log('handleDismiss', arguments);
         NotificationActions.dismiss(notificationId);
+    },
+    handleSelect: function(to){
+        if(to){
+            this.refs.navbar.refs.nav.refs.dropdown.setDropdownState(false);
+            this.transitionTo(to);
+        }
     },
     render: function () {
         var notifications = Object.keys(this.state.notifications).map(function(notificationId){
@@ -67,12 +73,12 @@ var App = React.createClass({
         }else{
             return (
                 <div>
-                    <Navbar fluid>
-                        <Nav>
+                    <Navbar fluid ref="navbar">
+                        <Nav ref="nav">
                             <NavItemLink to="home">Home</NavItemLink>
                             <NavItemLink to="todo">Todo</NavItemLink>
-                            <DropdownButton title={'Welcome ' + this.state.currentUser.login}>
-                                <MenuItemLink to="profile">Profile</MenuItemLink>
+                            <DropdownButton ref="dropdown" onSelect={this.handleSelect} title={'Welcome ' + this.state.currentUser.login}>
+                                <MenuItem eventKey="profile">Profile</MenuItem>
                                 <MenuItem divider />
                                 <MenuItem onClick={this.handleLogoutClick}>Logout</MenuItem>
                             </DropdownButton>

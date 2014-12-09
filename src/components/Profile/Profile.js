@@ -7,8 +7,6 @@ var UserActions = require('actions/UserActions.js');
 
 var UserStore = require('stores/UserStore.js');
 
-var wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
-
 var Profile = React.createClass({
     onUserChange: function(){
         this.setState({

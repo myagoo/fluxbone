@@ -30,6 +30,20 @@ module.exports = {
       return lastFmApiCall('user.getinfo', {
         user: userName
       });
+    },
+    getNewReleases: function(userName, userecs) {
+      return lastFmApiCall('user.getnewreleases', {
+        user: userName,
+        userecs: userecs
+      });
+    },
+    getTopArtists: function(userName, period, limit, page) {
+      return lastFmApiCall('user.gettopartists', {
+        user: userName,
+        period: period,
+        limit: limit,
+        page: page
+      });
     }
   }
 }

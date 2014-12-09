@@ -4,7 +4,9 @@ var React = require('react');
 var {Input} = require('react-bootstrap');
 var UserActions = require('actions/UserActions.js');
 
-var wellStyles = {maxWidth: 400, margin: '0 auto 10px'};
+require('./LoginForm.css');
+
+var wellStyles = {maxWidth: 400, margin: '0 auto'};
 
 var LoginForm = React.createClass({
     handleSubmit: function(event){
@@ -13,7 +15,7 @@ var LoginForm = React.createClass({
     },
     render: function() {
         return (
-            <div className="well" style={wellStyles}>
+            <div className="well loginForm" style={wellStyles}>
               <form onSubmit={this.handleSubmit}>
               <Input ref="login" label="Login" type="text" defaultValue="" />
               <Input ref="password" label="Password" type="password" defaultValue="" />
