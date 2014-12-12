@@ -1,8 +1,12 @@
 var React = require('react');
+var Reflux = require('reflux');
 
 var {ListGroup, ListGroupItem} = require('react-bootstrap');
 
+var NewReleasesStore = require('stores/NewReleasesStore.js');
+
 var NotificationActions = require('actions/NotificationActions.js');
+var NewReleasesActions = require('actions/NewReleasesActions.js');
 
 var LastFm = require('api/lastfm.js');
 
@@ -11,14 +15,16 @@ var {debounce} = require('utils.js');
 var Chart = require('chart.js/Chart.js');
 
 var Home = React.createClass({
+    mixins: [Reflux.connect(NewReleasesStore, 'newReleases')],
     getInitialState: function(){
         return {
             username: ''
         };
     },
     loadUserInfo: debounce(function(userName){
-
-        LastFm.user.getNewReleases(userName, true).then(function(newReleases){
+        console.log('loadUserInfo', userName);
+        NewReleasesActions.load(userName);
+        /*LastFm.user.getNewReleases(userName, true).then(function(newReleases){
             this.setState({
                 newReleases: newReleases
             });
@@ -27,7 +33,7 @@ var Home = React.createClass({
                 type: 'error',
                 message: error.message
             });
-        });
+        });*/
 
         LastFm.user.getTopArtists(userName).then(function(topArtists){
             this.setState({
@@ -63,6 +69,7 @@ var Home = React.createClass({
         });
     },
     renderNewReleases: function(newReleases){
+        console.log('renderNewReleases', newReleases);
         if(newReleases === undefined){
             return;
         }
@@ -92,6 +99,8 @@ var Home = React.createClass({
         var chart = new Chart(ctx).Doughnut(data);
     },
     render: function(){
+
+        console.log(this.state.newReleases);
 
         var newReleases = this.renderNewReleases(this.state.newReleases);
         var topArtists = this.renderTopArtist(this.state.topArtists);
