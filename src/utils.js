@@ -13,13 +13,6 @@ function debounce(func, delay) {
   };
 }
 
-function curry(func) {
-  var args = slice(arguments, 1);
-  return function() {
-    return func.apply(this, args.concat(slice(arguments)));
-  };
-}
-
 function cascade(funcs) {
   var args = slice(arguments, 1);
   return Promise.resolve(funcs.length ? funcs.shift().apply(this, args) : args[0]).then(function() {
@@ -28,23 +21,36 @@ function cascade(funcs) {
   }.bind(this));
 }
 
-function extend(obj) {
-  var source, prop;
-  for (var i = 1, length = arguments.length; i < length; i++) {
-    source = arguments[i];
-    for (prop in source) {
-      if (hasOwnProperty.call(source, prop)) {
-        obj[prop] = source[prop];
-      }
+
+function randomInteger(max, min){
+    min = min || 0;
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function randomColor(mix){
+    var red = randomInteger(255);
+    var green = randomInteger(255);
+    var blue = randomInteger(255);
+
+    if(mix){
+        mix.red && (red = (red + mix.red) / 2);
+        mix.green && (green = (green + mix.green) / 2);
+        mix.blue && (blue = (blue + mix.blue) / 2);
     }
-  }
-  return obj;
+
+    return rgbToHex(red, green, blue);
+}
+
+function rgbToHex(r, g, b) {
+    return "#" + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
 }
 
 module.exports = {
   slice: slice,
-  curry: curry,
   debounce: debounce,
   cascade: cascade,
   extend: require('react/lib/Object.assign'),
+  randomInteger: randomInteger,
+  randomColor: randomColor,
+  rgbToHex: rgbToHex
 };

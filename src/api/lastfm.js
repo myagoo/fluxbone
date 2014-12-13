@@ -17,6 +17,7 @@ function lastFmApiCall(method, params) {
     path: lastFmApiUri,
     params: params
   }).then(function(response) {
+    console.log('response', response)
     if (response.entity.error) {
       throw new Error(response.entity.message);
     }

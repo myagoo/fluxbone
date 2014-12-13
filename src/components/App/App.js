@@ -61,7 +61,7 @@ var App = React.createClass({
         var notifications = Object.keys(this.state.notifications).map(function(notificationId){
             var notification = this.state.notifications[notificationId];
             return (
-                <Alert bsStyle="danger" onDismiss={curry(this.handleDismiss, notificationId)}>
+                <Alert bsStyle="danger" onDismiss={this.handleDismiss.bind(this, notificationId)}>
                 <h4>{notification.type}</h4>
                 <p>{notification.message}</p>
                 </Alert>

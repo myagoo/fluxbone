@@ -2,6 +2,7 @@ var React = require('react');
 var Reflux = require('reflux');
 
 var {ListGroup, ListGroupItem} = require('react-bootstrap');
+var Chart = require('components/Chart/Chart.js');
 
 var NewReleasesStore = require('stores/NewReleasesStore.js');
 
@@ -10,30 +11,22 @@ var NewReleasesActions = require('actions/NewReleasesActions.js');
 
 var LastFm = require('api/lastfm.js');
 
-var {debounce} = require('utils.js');
-
-var Chart = require('chart.js/Chart.js');
+var {debounce, randomColor} = require('utils.js');
 
 var Home = React.createClass({
-    mixins: [Reflux.connect(NewReleasesStore, 'newReleases')],
+    mixins: [Reflux.listenTo(NewReleasesStore,"onNewReleasesChange")],
     getInitialState: function(){
         return {
-            username: ''
+            username: '',
         };
     },
+    onNewReleasesChange: function(){
+        this.setState({
+            newReleases: NewReleasesStore.getNewReleases()
+        })
+    },
     loadUserInfo: debounce(function(userName){
-        console.log('loadUserInfo', userName);
         NewReleasesActions.load(userName);
-        /*LastFm.user.getNewReleases(userName, true).then(function(newReleases){
-            this.setState({
-                newReleases: newReleases
-            });
-        }.bind(this)).catch(function(error){
-            NotificationActions.create({
-                type: 'error',
-                message: error.message
-            });
-        });*/
 
         LastFm.user.getTopArtists(userName).then(function(topArtists){
             this.setState({
@@ -69,10 +62,11 @@ var Home = React.createClass({
         });
     },
     renderNewReleases: function(newReleases){
-        console.log('renderNewReleases', newReleases);
-        if(newReleases === undefined){
+        if(newReleases === undefined || newReleases.albums.album === undefined){
             return;
         }
+
+        console.log('renderNewReleases', newReleases);
 
         return newReleases.albums.album.map(function(album){
 
@@ -80,27 +74,25 @@ var Home = React.createClass({
                 return image.size === 'medium';
             })[0]['#text'];
 
-            return <ListGroupItem onClick><img src={imgSrc} />{album.name}</ListGroupItem>;
+            return <ListGroupItem style={{backgroundColor: randomColor()}} onClick><img src={imgSrc} />{album.name}</ListGroupItem>;
         }.bind(this));
     },
     renderTopArtist: function(topArtists){
-        if(topArtists === undefined){
+        if(topArtists === undefined || topArtists.topartists.artist === undefined){
             return;
         }
-        var ctx = this.refs.topArtists.getDOMNode().getContext("2d");
 
         var data = topArtists.topartists.artist.slice(0, 10).map(function(artist){
             return {
                 label: artist.name,
-                value: parseInt(artist.playcount, 10)
+                value: parseInt(artist.playcount, 10),
             };
         });
 
-        var chart = new Chart(ctx).Doughnut(data);
+        return <Chart title="Top artists" width={250} height={250} type="Doughnut" data={data} />
     },
-    render: function(){
 
-        console.log(this.state.newReleases);
+    render: function(){
 
         var newReleases = this.renderNewReleases(this.state.newReleases);
         var topArtists = this.renderTopArtist(this.state.topArtists);
@@ -110,7 +102,7 @@ var Home = React.createClass({
                 <input ref="username" type="text" onChange={this.handleChange} value={this.state.username}/>
                 <pre>{JSON.stringify(this.state.userInfo || {})}</pre>
                 <ListGroup>{newReleases}</ListGroup>
-                <canvas ref="topArtists" id="topArtists" width="400" height="400"></canvas>
+                {topArtists}
             </div>
 
         );
