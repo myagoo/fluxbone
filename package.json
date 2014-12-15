@@ -25,6 +25,7 @@
     "chart.js": "^1.0.1-beta.2",
     "css-loader": "^0.9.0",
     "expose-loader": "^0.6.0",
+    "highcharts-browserify": "^0.1.1-4.0.3",
     "json-loader": "^0.5.1",
     "jsx-loader": "^0.12.2",
     "less": "^1.7.5",

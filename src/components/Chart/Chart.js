@@ -6,9 +6,7 @@ var {randomColor, extend} = require('utils.js');
 
 var Chartjs = require('chart.js/Chart.js');
 
-console.log('Chartjs', Chartjs)
-
-var PChart = React.createClass({
+var Chart = React.createClass({
     getInitialState: function(){
         return {
             chart: undefined
@@ -18,17 +16,38 @@ var PChart = React.createClass({
         console.log('chart componentDidUpdate', prevProps, this.props);
         if(this.props.type !== prevProps.type){
             this.createChart(this.props.type, this.props.data);
-        }else if(this.props.data !== prevProps.data){
-            console.log(this.state, prevState)
+        }else if(this.props.data != prevProps.data){
             this.updateChart(this.props.data);
         }
     },
     createChart: function(chartType, rawData, options){
-        console.log('prout');
+        console.log('createChart', chartType, rawData, options);
+        var chart = new Highcharts.Chart({
+            chart: {
+                renderTo: this.refs.chart.getDOMNode()
+            },
+
+            xAxis: {
+                categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            },
+
+            series: [{
+                data: [29.9, 71.5, 106.4, 129.2, 144.0, 176.0, 135.6, 148.5, 216.4, 194.1, 95.6, 54.4]
+            }]
+        });
+
+        console.log('prout', chart);
+
+
+        this.setState({
+            chart: chart
+        });
+
+        return
+
+
         var context = this.refs.canvas.getDOMNode().getContext("2d");
-
-        console.log('createChart', context);
-
         var chartData = rawData.map(function(rawDatum){
             return extend({
                 color: randomColor()
@@ -40,15 +59,15 @@ var PChart = React.createClass({
         });
     },
     updateChart: function(rawData){
-        console.info('updateChart', rawData);
+        /*console.info('updateChart', rawData);
 
         if(!this.state.chart){
             return;
         }
 
         var index = this.state.chart.segments.length;
-        while(--index){
-            this.state.chart.removeData(index);
+        while(index){
+            this.state.chart.removeData(--index);
         }
 
         rawData.map(function(rawDatum){
@@ -57,9 +76,9 @@ var PChart = React.createClass({
             }, rawDatum);
         }).forEach(function(datum, index){
             this.state.chart.addData(datum, index, true);
-        });
+        }.bind(this));
 
-        this.state.chart.update();
+        this.state.chart.update();*/
     },
     componentDidMount: function(){
         console.log('Chart componentDidMount');
@@ -73,10 +92,10 @@ var PChart = React.createClass({
         console.log('Chart render');
         return (
             <Panel header={this.props.title} {...this.props}>
-                <canvas ref="canvas" width={this.props.width} height={this.props.height}></canvas>
+                <div ref="chart" style={{width: this.props.width, height: this.props.height}} />
             </Panel>
         );
     }
 });
 
-module.exports = PChart;
+module.exports = Chart;
