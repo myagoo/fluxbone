@@ -1,12 +1,14 @@
 var path = require('path');
 
 module.exports = {
-  entry: [
-    path.join(__dirname, 'src', 'main.js'),
-  ],
+  entry: {
+    'script': path.join(__dirname, 'src', 'main.js'),
+    'style': path.join(__dirname, 'src', 'main.less'),
+  },
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: "[name].bundle.js",
+    chunkFilename: "[id].bundle.js"
   },
   module: {
     loaders: [{
@@ -14,13 +16,16 @@ module.exports = {
         /\.js$/,
         /\.jsx$/
       ],
-      loader: 'jsx-loader?harmony&insertPragma=React.DOM'
+      loader: 'jsx-loader?harmony'
     }, {
       test: /\.css$/,
       loader: 'style-loader!css-loader'
     }, {
       test: /\.json$/,
       loader: 'json-loader'
+    }, {
+      test: /\.less$/,
+      loader: 'style!raw!less'
     }]
   },
   resolve: {

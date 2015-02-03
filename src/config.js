@@ -4,5 +4,5 @@ var {
 } = require('utils.js')
 
 module.exports = extend({
-  "lastFmApiUri": "http://ws.audioscrobbler.com/2.0/"
+  "lastFmApiUri": "//ws.audioscrobbler.com/2.0/"
 }, localConfig);
